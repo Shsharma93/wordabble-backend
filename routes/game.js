@@ -4,16 +4,15 @@ const Games = require('../models/games');
 const validateGame = require('../validation/game');
 
 router.get('/', async (req, res) => {
-  let userId = '';
-  if (req.query) {
-    userId = {
-      user: req.query.id
-    };
-  }
+  console.log(req.query);
   try {
-    const games = await Games.find(userId).sort({
-      date: -1
-    });
+    const games = !req.query.id
+      ? await Games.find().sort({
+          date: -1
+        })
+      : await Games.find({ user: req.query.id }).sort({
+          date: -1
+        });
     res.json({ success: true, games });
   } catch (error) {
     res.json({ success: false, message: error.message });
