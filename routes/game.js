@@ -4,7 +4,6 @@ const Games = require('../models/games');
 const validateGame = require('../validation/game');
 
 router.get('/', async (req, res) => {
-  console.log(req.query);
   try {
     const games = !req.query.id
       ? await Games.find().sort({
@@ -13,6 +12,17 @@ router.get('/', async (req, res) => {
       : await Games.find({ user: req.query.id }).sort({
           date: -1
         });
+    res.json({ success: true, games });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const games = await Games.find({ user: req.params.id }).sort({
+      date: -1
+    });
     res.json({ success: true, games });
   } catch (error) {
     res.json({ success: false, message: error.message });

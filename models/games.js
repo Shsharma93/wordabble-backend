@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId
+    type: String
   },
   game: { type: Object, required: true },
   date: { type: Date, default: Date.now }
